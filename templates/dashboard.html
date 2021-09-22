@@ -35,6 +35,7 @@
         Culpa qui praesentium recusandae aperiam aut!</p>
 
     <canvas id="bar-chart" width="450" height="200" ></canvas>    
+    <canvas id="line-chart" width="450" height="200"></canvas>
 
 
 
@@ -83,6 +84,21 @@
                 }
             },
         });
+    </script>
+    <script>
+new Chart(document.getElementById("line-chart"), {
+    type: 'line',
+    data : {
+  labels:["January","February","March","April","May","Jun","July"],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+},
+});
     </script>
 </body>
 

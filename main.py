@@ -1,8 +1,8 @@
 from flask import Flask,request,render_template,redirect
 import psycopg2
 
-conn=psycopg2.connect(database='myduka',user='postgres',host='localhost',password='23126158',port='5432')
-# conn=psycopg2.connect(database='d4eg9sklm38cmt',user='ibjyctkrxoaeta',host='ec2-52-210-120-210.eu-west-1.compute.amazonaws.com',password='ea2fdcc20c84a48ea8c07555cbb71d90df53b4cdcf9fea97296f99c4d896b7ed',port='5432')
+# conn=psycopg2.connect(database='myduka',user='postgres',host='localhost',password='23126158',port='5432')
+conn=psycopg2.connect(database='d4eg9sklm38cmt',user='ibjyctkrxoaeta',host='ec2-52-210-120-210.eu-west-1.compute.amazonaws.com',password='ea2fdcc20c84a48ea8c07555cbb71d90df53b4cdcf9fea97296f99c4d896b7ed',port='5432')
 cur=conn.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS product1(id serial PRIMARY KEY, name VARCHAR(100), buying_price INT, selling_price INT, stock_quantity INT)")
 cur.execute("CREATE TABLE IF NOT EXISTS sale1(id serial PRIMARY KEY, product_id INT, quantity INT,created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW())")

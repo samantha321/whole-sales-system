@@ -19,6 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/login">login</a>
                     <a class="nav-link" href="/dashboard">Dashbord</a>
                     <a class="nav-link" href="/sales">Sales</a>
                     <a class="nav-link" href="/inventory">inventory</a>
@@ -34,8 +35,10 @@
         Quas et omnis ad nostrum placeat aperiam animi officiis.
         Culpa qui praesentium recusandae aperiam aut!</p>
 
-    <canvas id="bar-chart" width="450" height="200" ></canvas>    
+    <canvas id="bar-chart" width="450" height="200"></canvas>
     <canvas id="line-chart" width="450" height="200"></canvas>
+    <canvas id="pie-chart" width="450" height="200"></canvas>
+
 
 
 
@@ -51,54 +54,72 @@
         new Chart(document.getElementById("bar-chart"), {
             type: 'bar',
             data: {
-                labels:{{r|tojson}},
-                datasets: [{
-                    label: 'sales and profit',
-                    data: {{q|tojson}},
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
-                        'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
-                        'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 1
+                labels: {{ r| tojson}},
+            datasets: [{
+                label: 'profit',
+                data: {{ q| tojson}},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
+            }
+        },
+        });
+    </script>
+    <script>
+        new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "Jun", "July"],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
             },
         });
     </script>
     <script>
-new Chart(document.getElementById("line-chart"), {
-    type: 'line',
-    data : {
-  labels:["January","February","March","April","May","Jun","July"],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    fill: false,
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
-  }]
-},
-});
+        new Chart(document.getElementById("pie-chart"), {
+            type: 'pie',
+            data : {
+                labels: {{ u| tojson}},
+                datasets: [{
+                    label: 'sales quantity',
+                    data: {{ v| tojson}},
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
     </script>
 </body>
 

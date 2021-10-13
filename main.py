@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect ,flash
 import psycopg2
 
 conn=psycopg2.connect(database='myduka',user='postgres',host='localhost',password='23126158',port='5432')
@@ -101,11 +101,14 @@ def log():
             """SELECT %(a)s from users where id=%(b)s""", {"a": a,"b":b})
         c = cur.fetchall()
         print(c)
-        if len(c)==0:
-            print("you have entered wrong input")
+
+        if request.form['email'] != '%(a)s'  and \
+                request.form['password'] != '%(b)s':
+             flash("Invalid Credentials, Please Try Again")
+ 
         else:
-            pass
-        return redirect("/dashboard")
+            flash('You were successfully logged in')
+            return redirect("/dashboard")
     else:    
         return render_template("login.html")
 
@@ -120,7 +123,7 @@ def sign():
                     "x": x, "y": y, "z": z})
         conn.commit()
         print(x,y.z)
-
+        
         return redirect("/dashboard")
     else:     
         return render_template("signin.html")

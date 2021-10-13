@@ -58,6 +58,19 @@
 							</fieldset>
 						</form>
 					</div>
+					<div>
+						{%with messages = get_flashed_messages()%}
+						{%if messages %}
+							<ul class=flashes>
+							{% for messages in messages%}
+							 <li>{{message}}</li>
+							{%endfor%}
+							</ul>
+						{%endif%}
+						{%endwith%}
+						{%block body%}{%endblock%}	
+						
+					</div>
 					<div class="panel-footer ">
 						Don't have an account! <a href="/signin" onClick=""> Sign Up Here </a>
 					</div>

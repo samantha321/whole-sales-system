@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, redirect ,flash
+from flask import Flask, request, render_template, redirect ,flash, url_for
+from flask_session import Session
 import psycopg2
 
 conn=psycopg2.connect(database='myduka',user='postgres',host='localhost',password='23126158',port='5432')
@@ -11,6 +12,7 @@ conn.commit()
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "THISISSECRET"
 
 
 @app.route("/")
@@ -60,7 +62,7 @@ def sales():
             cur.execute("""INSERT INTO sale1(product_id,quantity)VALUES(%(k)s,%(l)s)""", {
                         "k": k, "l": l})
             conn.commit()
-            return redirect("/sales",m=m)
+            return redirect("/sales")
         else:
             pass
     else:
@@ -98,17 +100,20 @@ def log():
         a = request.form["email"]
         b = request.form["password"]
         cur.execute(
-            """SELECT %(a)s from users where id=%(b)s""", {"a": a,"b":b})
-        c = cur.fetchall()
-        print(c)
-
-        if request.form['email'] != '%(a)s'  and \
-                request.form['password'] != '%(b)s':
-             flash("Invalid Credentials, Please Try Again")
- 
+            """SELECT * from users where email=%(a)s OR password=%(b)s""", {"a": a,"b":b})
+        c = cur.fetchone()
+        if c:
+            print("present")
+            print(c)
+            if c[2]==a and c[3]==b:
+                print("correct credentials")
+                return redirect(url_for('dash'))
+            else:
+                print("wrong input.please try again")
+                return redirect(url_for('log'))
         else:
-            flash('You were successfully logged in')
-            return redirect("/dashboard")
+            print("user does not exist")
+
     else:    
         return render_template("login.html")
 
@@ -119,10 +124,10 @@ def sign():
         x = request.form["email"]
         y = request.form["username"]
         z = request.form["password"]
+        print("my details", x,y,z)
         cur.execute("""INSERT INTO users(user_name,email,password)VALUES(%(x)s,%(y)s,%(z)s)""", {
                     "x": x, "y": y, "z": z})
         conn.commit()
-        print(x,y.z)
         
         return redirect("/dashboard")
     else:     
